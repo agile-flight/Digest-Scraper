@@ -1,4 +1,3 @@
-import requests
 from bs4 import BeautifulSoup
 from digest_list import site_url_list, freshman_roster
 
@@ -8,7 +7,7 @@ def date(site):
 	day = g_text(site, True)[46]
 	year = g_text(site, True)[47]
 
-	return month + " " day + " " + year[:4]
+	return month + " " + day + " " + year[:4]
 
 def g_text(site, strip):
 
@@ -30,7 +29,8 @@ if __name__ == "__main__":
 		names = ", ".join(names)
 
 		if len(names) != 0:
-			print(f"URL: {site}\nDate: {date(site)}\nContains name(s): {names}\n")
+			print(f"\nURL: {site}\nDate: {date(site)}\nContains name(s): {names}")
 
 		names = []
 
+	print()
