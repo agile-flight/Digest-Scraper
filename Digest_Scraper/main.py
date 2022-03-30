@@ -1,5 +1,9 @@
+import requests
 from bs4 import BeautifulSoup
 from digest_list import site_url_list, freshman_roster
+
+if len(freshman_roster) == 0:
+	print("you cannot access the freshman roster for security reasons".upper())
 
 def date(site):
 
