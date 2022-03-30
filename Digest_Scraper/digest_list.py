@@ -50,7 +50,4 @@ site_url_list = [
 "https://www.smore.com/1we02-stevenson-daily-digest?ref=email"
 ]
 
-freshman_roster = [
-"Nikhil",
-"Eshaam"
-]
+freshman_roster = []
