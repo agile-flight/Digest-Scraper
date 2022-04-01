@@ -2,14 +2,13 @@ import requests
 from bs4 import BeautifulSoup
 from digest_list import site_url_list, freshman_roster
 
-if len(freshman_roster) == 0:
-	print("you cannot access the freshman roster for security reasons".upper())
-
 def date(site):
 
-	month = g_text(site, True)[45]
-	day = g_text(site, True)[46]
-	year = g_text(site, True)[47]
+	text = g_text(site, False).split()
+
+	month = text[54]
+	day = text[55]
+	year = text[56]
 
 	return month + " " + day + " " + year[:4]
 
@@ -17,24 +16,37 @@ def g_text(site, strip):
 
 	web_data = requests.get(site).content
 	soup = BeautifulSoup(web_data, "html.parser")
-	return soup.get_text(strip = strip).split(" ")
-
-	g_text(site)
+	return soup.get_text(strip = strip)
 
 if __name__ == "__main__": 
-	
-	names = []
+
+	f = open("results.txt", "w")
+
+	names = set()
+	names_complete = set()
 
 	for site in site_url_list:
+
+		text = g_text(site, True)
+
 		for name in freshman_roster:
-			if name in g_text(site, False):
-				names.append(name)
+			if name in text:
+				names.add(name)
+				names_complete.add(name)
 
 		names = ", ".join(names)
 
 		if len(names) != 0:
-			print(f"\nURL: {site}\nDate: {date(site)}\nContains name(s): {names}")
+			f.write(f"\nURL: {site}\nDate: {date(site)}\nContains name(s): {names}\n")
+		
+		names = set()
 
-		names = []
+		print(f" Scanning Digest {site_url_list.index(site) + 1} of {len(site_url_list)}\033[F")
 
-	print()
+	names_complete = ", ".join(names_complete)
+	f.write(f"\n\nName(s) Mentioned on Digests:\n{names_complete}")
+
+	print("Program Completed          ")
+	f.close()
+
+	
